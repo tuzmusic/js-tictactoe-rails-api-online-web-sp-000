@@ -6,7 +6,7 @@ function player() {
 }
 
 function updateState(square) {
-  square.innerHTML = player()
+  square.innerHTML = player();
 }
 
 function setMessage(str) {
@@ -14,11 +14,11 @@ function setMessage(str) {
 }
 
 function currentState() {
-  let state = []
-  for (td of $('td')) {
-    state.push(td.innerHTML)
+  let state = [];
+  for (td of $("td")) {
+    state.push(td.innerHTML);
   }
-  return state
+  return state;
 }
 
 function won() {
@@ -34,49 +34,49 @@ function won() {
     [2, 4, 6] // top right diag
   ];
   winCombos.forEach(combo => {
-    const state = currentState()
+    const state = currentState();
     if (
       state[combo[0]] === state[combo[1]] &&
       state[combo[0]] === state[combo[2]] &&
       state[combo[0]] !== ""
     ) {
-      winner = state[combo[0]]
+      winner = state[combo[0]];
     }
   });
   return winner;
 }
 
 function tied() {
-  for (td of $('td')) {
-    if (td.innerHTML !== "")
-      return false
+  for (td of $("td")) {
+    if (td.innerHTML === "") return false
   }
-  return true
+  return true;
 }
 
 function checkWinner() {
-  if (winner = won()) {
+  if ((winner = won())) {
     setMessage(`Player ${winner} Won!`);
     return true;
   } else {
-    if (tied) {
-      setMessage("Tie game.")
+    if (tied()) {
+      setMessage("Tie game.");
     }
-    return false
+    return false;
   }
 }
 
 function resetGame() {
-  turn = 0
-  $('td').text("")
+  turn = 0;
+  $("td").text("");
 }
 
 function doTurn(square) {
-  updateState(square);
-  if (checkWinner()) {
-    resetGame()
-  } else {
+  if (square.innerHTML === "") {
+    updateState(square);
     turn++;
+  }
+  if (checkWinner()) {
+    resetGame();
   }
 }
 function attachListeners() {
@@ -91,7 +91,7 @@ function attachListeners() {
 
 // ON LOAD
 $(function() {
-  mocha.run()
+  mocha.run();
   attachListeners();
 });
 

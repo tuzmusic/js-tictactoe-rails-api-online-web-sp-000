@@ -235,8 +235,8 @@ describe('tictactoe.js', () => {
       //  O |   | O 
 
       window.turn = 8;
+      debugger
       window.doTurn(squares[7]);
-
       expect(spy.firstCall.args[0]).to.equal('Tie game.');
     });
 
@@ -319,7 +319,7 @@ describe('Gameplay', () => {
     //  O | O |   
 
     squares[4].click();
-
+    debugger
     expect(squares[4].innerHTML).to.equal('');
     expect(window.turn).to.equal(5);
   });
