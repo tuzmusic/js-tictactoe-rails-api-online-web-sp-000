@@ -5,10 +5,6 @@ function player() {
   return turn % 2 > 0 ? "O" : "X";
 }
 
-function indexFromSquare(square) {
-  return Number(square.dataset.y) * 3 + Number(square.dataset.x);
-}
-
 function updateState(square) {
   square.innerHTML = player()
 }
