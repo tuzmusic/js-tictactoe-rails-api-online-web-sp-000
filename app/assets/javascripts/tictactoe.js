@@ -66,10 +66,15 @@ function checkWinner() {
   }
 }
 
+function resetGame() {
+  turn = 0
+  $('td').text("")
+}
+
 function doTurn(square) {
   updateState(square);
   if (checkWinner()) {
-    turn = 0
+    resetGame()
   } else {
     turn++;
   }
