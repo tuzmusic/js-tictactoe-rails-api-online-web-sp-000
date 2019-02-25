@@ -1,5 +1,7 @@
+turn = 0 
+
 function player() {
-  // Returns the token of the player whose turn it is, `'X'` when the`turn` variable is even and`'O'` when it is odd.
+  return (turn % 2 > 0) ? "O" : "X"
 }
 function updateState() {
   // Invokes`player()` and adds the returned string(`'X'` or`'O'`) to the clicked square on the game board.
@@ -22,3 +24,7 @@ function attachListeners() {
   // *** NOTE ***: `attachListeners()` _must_ be invoked inside either a`$(document).ready()`(jQuery) or a`window.onload = () => {}`(vanilla JavaScript).Otherwise, a number of the tests will fail(not to mention that your game probably won't function in the browser).
   // When you name your save and previous functions, make sure to call them something like`saveGame()` and`previousGames()`.If you call them`save()` and`previous()` you may run into problems with the test suite.
 }
+
+$(function () {
+  mocha.run()
+})
