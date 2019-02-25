@@ -1,68 +1,95 @@
-let gameID
-let state = Array(9).fill("")
-turn = 0 
-
+let gameID;
+let state = Array(9).fill("");
+turn = 0;
 
 function player() {
-  return (turn % 2 > 0) ? "O" : "X"
+  return turn % 2 > 0 ? "O" : "X";
 }
 
 function indexFromSquare(square) {
-  return Number(square.dataset.y) * 3 + Number(square.dataset.x)
+  return Number(square.dataset.y) * 3 + Number(square.dataset.x);
 }
 
 function updateState(square) {
-  square.innerHTML = player()
-  state[indexFromSquare(square)] = player()
-  console.log(state);
-  
+  let p = player();
+  state[indexFromSquare(square)] = p;
+  // console.log(state);
+  square.innerHTML = p;
 }
 
 function setMessage(str) {
   // Accepts a string and adds it to the`div#message` element in the DOM.
-  $('#message').append(str)
+  $("#message").append(str);
 }
+
+function won() {
+  let haveWon = false
+  const winCombos = [
+    [0, 1, 2], // top row
+    [3, 4, 5], // middle row
+    [6, 7, 8], // bottom row
+    [0, 3, 6], // left row
+    [1, 4, 7], // vertical middle row
+    [2, 5, 8], // right row
+    [0, 4, 8], // top left diag
+    [2, 4, 6] // top right diag
+  ];
+  winCombos.forEach(combo => {
+    // console.log(combo);
+    // console.log(state[combo[0]], state[combo[1]], state[combo[2]]);
+
+    if (
+      state[combo[0]] === state[combo[1]] &&
+      state[combo[0]] === state[combo[2]] &&
+      state[combo[0]] !== ""
+    ) {
+      haveWon = true;
+    }
+  });
+  return haveWon;
+}
+
 function checkWinner() {
+  if (won()) {
+    setMessage(`Player ${player()} Won!`);
+    return true;
+  }
   // Returns`true` if the current board contains any winning combinations(three`X` or`O` tokens in a row, vertically, horizontally, or diagonally).Otherwise, returns`false`.
   // If there is a winning combination on the board, `checkWinner()` should invoke`setMessage()`, passing in the appropriate string based on who won: `'Player X Won!'` or`'Player O Won!'`
 }
 function doTurn(square) {
   // Invokes the`updateState()` function, passing it the element that was clicked.
-  updateState(square)
-  // Increments the`turn` variable by`1`.
-  turn++
-  checkWinner()
+  updateState(square);
   // Invokes`checkWinner()` to determine whether the move results in a winning play.
+  checkWinner();
+  // Increments the`turn` variable by`1`.
+  turn++;
 }
 function attachListeners() {
   // Attaches the appropriate event listeners to the squares of the game board as well as for the`button#save`, `button#previous`, and`button#clear` elements.
   // When a user clicks on a square on the game board, the event listener should invoke`doTurn()` and pass it the element that was clicked.
-  attachSquareListeners()
+  $("td").on("click", function() {
+    doTurn(this);
+  });
   // *** NOTE ***: `attachListeners()` _must_ be invoked inside either a`$(document).ready()`(jQuery) or a`window.onload = () => {}`(vanilla JavaScript).Otherwise, a number of the tests will fail(not to mention that your game probably won't function in the browser).
   // When you name your save and previous functions, make sure to call them something like`saveGame()` and`previousGames()`.If you call them`save()` and`previous()` you may run into problems with the test suite.
 }
 
 // ON LOAD
-$(function () {
-  // mocha.run()
-  attachListeners()
-})
-
-function attachSquareListeners() {
-  $('td').on('click', function(){
-    doTurn(this)
-  })
-}
+$(function() {
+  mocha.run()
+  attachListeners();
+});
 
 function getOrCreateGameId() {
-  $.get('/games/', (data) => {
-    let games = data.data
+  $.get("/games/", data => {
+    let games = data.data;
     if (games.length === 0) {
-      $.post('/games/', (data) => {
-        gameId = Number(data.data.id)
-      })
+      $.post("/games/", data => {
+        gameId = Number(data.data.id);
+      });
     } else {
-      gameId = Number(games[games.length-1].id)
+      gameId = Number(games[games.length - 1].id);
     }
-  })
+  });
 }
