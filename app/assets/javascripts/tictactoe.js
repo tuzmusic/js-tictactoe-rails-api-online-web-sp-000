@@ -11,15 +11,21 @@ function indexFromSquare(square) {
 }
 
 function updateState(square) {
-  let p = player();
+  let p = player(); // tests want player() called only onoce, so I can't call it from both places below.
   state[indexFromSquare(square)] = p;
-  // console.log(state);
   square.innerHTML = p;
 }
 
 function setMessage(str) {
-  // Accepts a string and adds it to the`div#message` element in the DOM.
   $("#message").append(str);
+}
+
+function currentState() {
+  let state = []
+  for (td of $('td')) {
+    state.push(td.innerHTML)
+  }
+  return state
 }
 
 function won() {
@@ -35,9 +41,7 @@ function won() {
     [2, 4, 6] // top right diag
   ];
   winCombos.forEach(combo => {
-    // console.log(combo);
-    // console.log(state[combo[0]], state[combo[1]], state[combo[2]]);
-
+    const state = currentState()
     if (
       state[combo[0]] === state[combo[1]] &&
       state[combo[0]] === state[combo[2]] &&
@@ -53,17 +57,20 @@ function checkWinner() {
   if (won()) {
     setMessage(`Player ${player()} Won!`);
     return true;
+  } else {
+    return false
   }
-  // Returns`true` if the current board contains any winning combinations(three`X` or`O` tokens in a row, vertically, horizontally, or diagonally).Otherwise, returns`false`.
-  // If there is a winning combination on the board, `checkWinner()` should invoke`setMessage()`, passing in the appropriate string based on who won: `'Player X Won!'` or`'Player O Won!'`
 }
+
 function doTurn(square) {
   // Invokes the`updateState()` function, passing it the element that was clicked.
   updateState(square);
   // Invokes`checkWinner()` to determine whether the move results in a winning play.
-  checkWinner();
-  // Increments the`turn` variable by`1`.
-  turn++;
+  if (checkWinner()) {
+    turn = 0
+  } else {
+    turn++;
+  }
 }
 function attachListeners() {
   // Attaches the appropriate event listeners to the squares of the game board as well as for the`button#save`, `button#previous`, and`button#clear` elements.
