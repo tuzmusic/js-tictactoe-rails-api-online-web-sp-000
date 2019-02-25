@@ -14,6 +14,14 @@ function updateState(square) {
   square.innerHTML = player()
 }
 
+function currentState() {
+  let state = []
+  for (td of $('td')) {
+    state.push(td.innerHTML)
+  }
+  return state
+}
+
 function setMessage(str) {
   // Accepts a string and adds it to the`div#message` element in the DOM.
   $('#message').append(str)
