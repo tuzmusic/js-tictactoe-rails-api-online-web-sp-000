@@ -1,4 +1,5 @@
 let gameID
+let state = Array(9).fill("")
 turn = 0 
 
 
@@ -7,19 +8,14 @@ function player() {
 }
 
 function indexFromSquare(square) {
-  let index = Number(square.dataset.x) * 3 + Number(square.dataset.y)
+  return Number(square.dataset.y) * 3 + Number(square.dataset.x)
 }
 
 function updateState(square) {
   square.innerHTML = player()
-}
-
-function currentState() {
-  let state = []
-  for (td of $('td')) {
-    state.push(td.innerHTML)
-  }
-  return state
+  state[indexFromSquare(square)] = player()
+  console.log(state);
+  
 }
 
 function setMessage(str) {
@@ -48,7 +44,7 @@ function attachListeners() {
 
 // ON LOAD
 $(function () {
-  mocha.run()
+  // mocha.run()
   attachListeners()
 })
 
