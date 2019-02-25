@@ -12,7 +12,7 @@ function indexFromSquare(square) {
 
 function updateState(square) {
   let p = player(); // tests want player() called only onoce, so I can't call it from both places below.
-  state[indexFromSquare(square)] = p;
+  // state[indexFromSquare(square)] = p;
   square.innerHTML = p;
 }
 
@@ -29,7 +29,7 @@ function currentState() {
 }
 
 function won() {
-  let haveWon = false
+  let winner;
   const winCombos = [
     [0, 1, 2], // top row
     [3, 4, 5], // middle row
@@ -47,15 +47,16 @@ function won() {
       state[combo[0]] === state[combo[2]] &&
       state[combo[0]] !== ""
     ) {
-      haveWon = true;
+      winner = state[combo[0]]
     }
   });
-  return haveWon;
+  return winner;
 }
 
 function checkWinner() {
-  if (won()) {
-    setMessage(`Player ${player()} Won!`);
+  if (winner = won()) {
+    console.log(`Player ${winner} Won!`);
+    setMessage(`Player ${winner} Won!`);
     return true;
   } else {
     return false
@@ -63,9 +64,7 @@ function checkWinner() {
 }
 
 function doTurn(square) {
-  // Invokes the`updateState()` function, passing it the element that was clicked.
   updateState(square);
-  // Invokes`checkWinner()` to determine whether the move results in a winning play.
   if (checkWinner()) {
     turn = 0
   } else {
