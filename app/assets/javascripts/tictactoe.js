@@ -1,6 +1,7 @@
 let gameID
 turn = 0 
 
+
 function player() {
   return (turn % 2 > 0) ? "O" : "X"
 }
@@ -8,12 +9,9 @@ function player() {
 function indexFromSquare(square) {
   let index = Number(square.dataset.x) * 3 + Number(square.dataset.y)
 }
+
 function updateState(square) {
-
-  if (!gameID)
-    getOrCreateGameId()
-
-  // Invokes`player()` and adds the returned string(`'X'` or`'O'`) to the clicked square on the game board.
+  square.innerHTML = player()
 }
 
 function setMessage(str) {
@@ -42,7 +40,7 @@ function attachListeners() {
 
 // ON LOAD
 $(function () {
-  // mocha.run()
+  mocha.run()
   attachListeners()
 })
 
