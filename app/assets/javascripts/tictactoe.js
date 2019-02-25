@@ -1,5 +1,4 @@
 let gameID;
-let state = Array(9).fill("");
 turn = 0;
 
 function player() {
@@ -11,9 +10,7 @@ function indexFromSquare(square) {
 }
 
 function updateState(square) {
-  let p = player(); // tests want player() called only onoce, so I can't call it from both places below.
-  // state[indexFromSquare(square)] = p;
-  square.innerHTML = p;
+  square.innerHTML = player()
 }
 
 function setMessage(str) {
