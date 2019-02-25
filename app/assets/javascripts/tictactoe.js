@@ -1,5 +1,6 @@
 let gameID;
 turn = 0;
+shouldDebug = false;
 
 function player() {
   return turn % 2 > 0 ? "O" : "X";
@@ -48,7 +49,7 @@ function won() {
 
 function tied() {
   for (td of $("td")) {
-    if (td.innerHTML === "") return false
+    if (td.innerHTML === "") return false;
   }
   return true;
 }
@@ -58,9 +59,6 @@ function checkWinner() {
     setMessage(`Player ${winner} Won!`);
     return true;
   } else {
-    if (tied()) {
-      setMessage("Tie game.");
-    }
     return false;
   }
 }
@@ -71,9 +69,13 @@ function resetGame() {
 }
 
 function doTurn(square) {
+  // if (shouldDebug) debugger;
   if (square.innerHTML === "") {
     updateState(square);
     turn++;
+  }
+  if (tied()) {
+    setMessage("Tie game.");
   }
   if (checkWinner()) {
     resetGame();

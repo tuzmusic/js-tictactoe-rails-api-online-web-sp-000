@@ -183,7 +183,6 @@ describe('tictactoe.js', () => {
       //  X |   | O 
 
       window.checkWinner();
-      // debugger
       expect(spy.firstCall.args[0]).to.equal('Player O Won!');
     });
   });
@@ -235,8 +234,9 @@ describe('tictactoe.js', () => {
       //  O |   | O 
 
       window.turn = 8;
-      debugger
+      window.shouldDebug = true
       window.doTurn(squares[7]);
+
       expect(spy.firstCall.args[0]).to.equal('Tie game.');
     });
 
