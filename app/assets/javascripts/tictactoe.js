@@ -53,12 +53,23 @@ function won() {
   return winner;
 }
 
+function tied() {
+  let tied = true
+  for (td of $('td')) {
+    if (td.innerHTML !== "")
+      tied = false
+  }
+  return tied
+}
+
 function checkWinner() {
   if (winner = won()) {
-    console.log(`Player ${winner} Won!`);
     setMessage(`Player ${winner} Won!`);
     return true;
   } else {
+    if (tied) {
+      setMessage("Tie game.")
+    }
     return false
   }
 }
