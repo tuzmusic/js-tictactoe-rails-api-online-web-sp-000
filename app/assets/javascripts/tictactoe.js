@@ -7,9 +7,9 @@ function player() {
 function updateState() {
   // Invokes`player()` and adds the returned string(`'X'` or`'O'`) to the clicked square on the game board.
 }
-function setMessage() {
+function setMessage(str) {
   // Accepts a string and adds it to the`div#message` element in the DOM.
-  
+  $('#message').append(str)
 }
 function checkWinner() {
   // Returns`true` if the current board contains any winning combinations(three`X` or`O` tokens in a row, vertically, horizontally, or diagonally).Otherwise, returns`false`.
