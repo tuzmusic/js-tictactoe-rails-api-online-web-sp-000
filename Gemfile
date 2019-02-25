@@ -38,7 +38,8 @@ group :development, :test do
   gem 'byebug'
   gem 'rspec-rails', '~> 3.0'
   gem 'pry'
-
+  gem 'pry-rails'
+  
   # Adds step-by-step debugging and stack navigation capabilities to pry using byebug. To use, invoke pry normally.
   gem 'pry-byebug'
 end

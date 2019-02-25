@@ -1,12 +1,21 @@
-
+let gameID
 turn = 0 
 
 function player() {
   return (turn % 2 > 0) ? "O" : "X"
 }
-function updateState() {
+
+function indexFromSquare(square) {
+  let index = Number(square.dataset.x) * 3 + Number(square.dataset.y)
+}
+function updateState(square) {
+
+  if (!gameID)
+    getOrCreateGameId()
+
   // Invokes`player()` and adds the returned string(`'X'` or`'O'`) to the clicked square on the game board.
 }
+
 function setMessage(str) {
   // Accepts a string and adds it to the`div#message` element in the DOM.
   $('#message').append(str)
@@ -16,10 +25,10 @@ function checkWinner() {
   // If there is a winning combination on the board, `checkWinner()` should invoke`setMessage()`, passing in the appropriate string based on who won: `'Player X Won!'` or`'Player O Won!'`
 }
 function doTurn(square) {
-  // Increments the`turn` variable by`1`.
-  turn++
   // Invokes the`updateState()` function, passing it the element that was clicked.
   updateState(square)
+  // Increments the`turn` variable by`1`.
+  turn++
   checkWinner()
   // Invokes`checkWinner()` to determine whether the move results in a winning play.
 }
@@ -33,12 +42,25 @@ function attachListeners() {
 
 // ON LOAD
 $(function () {
-  mocha.run()
+  // mocha.run()
   attachListeners()
 })
 
 function attachSquareListeners() {
   $('td').on('click', function(){
     doTurn(this)
+  })
+}
+
+function getOrCreateGameId() {
+  $.get('/games/', (data) => {
+    let games = data.data
+    if (games.length === 0) {
+      $.post('/games/', (data) => {
+        gameId = Number(data.data.id)
+      })
+    } else {
+      gameId = Number(games[games.length-1].id)
+    }
   })
 }
