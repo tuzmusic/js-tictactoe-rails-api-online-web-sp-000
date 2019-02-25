@@ -54,12 +54,11 @@ function won() {
 }
 
 function tied() {
-  let tied = true
   for (td of $('td')) {
     if (td.innerHTML !== "")
-      tied = false
+      return false
   }
-  return tied
+  return true
 }
 
 function checkWinner() {
