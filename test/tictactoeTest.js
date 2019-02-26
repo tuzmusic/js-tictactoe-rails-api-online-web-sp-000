@@ -335,7 +335,7 @@ describe('Gameplay', () => {
 
     window.turn = 8;
     window.doTurn(squares[7]);
-
+    // debugger
     window.doTurn(squares[4]);
 
     const board = Array.from(squares).map(s => s.innerHTML);

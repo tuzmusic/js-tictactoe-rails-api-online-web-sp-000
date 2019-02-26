@@ -72,7 +72,10 @@ function doTurn(square) {
   if (!won() && square.innerHTML === "") {
     updateState(square);
     turn++;
-    if (tied()) setMessage("Tie game.");
+    if (tied()) {
+      setMessage("Tie game.");
+      resetGame()
+    }
     if (checkWinner()) resetGame();
   }
 }
