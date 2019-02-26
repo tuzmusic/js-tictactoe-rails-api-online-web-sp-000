@@ -85,7 +85,7 @@ function attachListeners() {
     saveGame();
   });
   $("#previous").on("click", function() {
-    doTurn(this);
+    previousGames();
   });
   $("#clear").on("click", function() {
     resetGame();
@@ -113,6 +113,16 @@ function saveGame() {
     let posting = $.post("/games", game);
     posting.done(data => (gameId = data.data.id));
   }
+}
+
+function previousGames() {
+  $.get('/games', function (data) {
+    let games = data.data
+    let buttons = games.map((game) => {
+      return `<button class="prevGameButton">${game.id}</button>`
+    })
+    $('#games').html(buttons.join(' '))
+  })
 }
 
 function getOrCreateGameId() {
