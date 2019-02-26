@@ -117,24 +117,24 @@ function saveGame() {
 }
 
 function previousGames() {
-  $.get('/games', function (data) {
+  $.get('/games', (data) => {
     let games = data.data
     let buttons = games.map((game) => {
-      return `<button class="prevGameButton">${game.id}</button>`
+      return `<button onclick="loadGame(${game.id})" class="prevGameButton">${game.id}</button>`
     })
     $('#games').html(buttons.join(' '))
   })
 }
 
-function getOrCreateGameId() {
-  $.get("/games/", data => {
-    let games = data.data;
-    if (games.length === 0) {
-      $.post("/games/", data => {
-        gameId = Number(data.data.id);
-      });
-    } else {
-      gameId = Number(games[games.length - 1].id);
+function loadGame(id) {
+  $.get(`/games/${id}`, (data) => {
+    let state = data.data.attributes['state']
+    turn = 0 
+    for (td of $("td")) {
+      let i =  Number(td.dataset.y) * 3 + Number(td.dataset.x)
+      td.innerHTML = state[i]
+      if (state[i] !== "") turn ++ 
     }
-  });
+    gameId = id
+  })
 }
