@@ -69,8 +69,7 @@ function resetGame() {
 }
 
 function doTurn(square) {
-  // if (shouldDebug) debugger;
-  if (square.innerHTML === "") {
+  if (!won() && !tied() && square.innerHTML === "") {
     updateState(square);
     turn++;
   }
