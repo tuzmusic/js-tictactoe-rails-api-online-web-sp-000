@@ -59,9 +59,8 @@ function checkWinner() {
   if ((winner = won())) {
     setMessage(`Player ${winner} Won!`);
     return true;
-  } else {
-    return false;
   }
+  return false;
 }
 
 function resetGame(save = true) {
@@ -81,7 +80,7 @@ function attachListeners() {
   $("td").on("click", function() {
     doTurn(this);
   });
-  $("#clear").on("click", () => resetGame(false) );
+  $("#clear").on("click", () => resetGame(false));
   $("#save").on("click", () => saveGame());
   $("#previous").on("click", () => previousGames());
 }
@@ -96,7 +95,7 @@ let gameId;
 function saveGame() {
   let game = { state: currentState() };
   if (gameId) {
-    let updating = $.ajax({
+    $.ajax({
       url: `/games/${gameId}`,
       data: game,
       type: "PATCH"
@@ -111,9 +110,7 @@ function previousGames() {
   $.get("/games", data => {
     let games = data.data;
     let buttons = games.map(game => {
-      return `<button onclick="loadGame(${game.id})" class="prevGameButton">${
-        game.id
-      }</button>`;
+      return `<button onclick="loadGame(${game.id})" class="prevGameButton">${game.id}</button>`;
     });
     $("#games").html(buttons.join(" "));
   });
