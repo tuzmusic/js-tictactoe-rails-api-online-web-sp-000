@@ -67,6 +67,7 @@ function checkWinner() {
 function resetGame() {
   turn = 0;
   $("td").text("");
+  gameId = null
 }
 
 function doTurn(square) {
@@ -87,12 +88,11 @@ function attachListeners() {
     doTurn(this);
   });
   $("#clear").on("click", function() {
-    doTurn(this);
+    resetGame();
   });
   // When you name your save and previous functions, make sure to call them something like`saveGame()` and`previousGames()`.If you call them`save()` and`previous()` you may run into problems with the test suite.
 }
 
-// ON LOAD
 // *** NOTE ***: `attachListeners()` _must_ be invoked inside either a`$(document).ready()`(jQuery) or a`window.onload = () => {}`(vanilla JavaScript).Otherwise, a number of the tests will fail(not to mention that your game probably won't function in the browser).
 $(function() {
   mocha.run();
@@ -104,16 +104,12 @@ let gameId;
 function saveGame() {
   let game = { state: currentState() };
   if (gameId) {
-    // UPDATE GAME
     let updating = $.ajax({
       url: `/games/${gameId}`,
       data: game,
       type: "PATCH"
     });
-    // let updating = $.patch(`/games/${gameId}`, game)
-    updating.done(data => (gameId = data.data.id));
   } else {
-    // CREATE GAME
     let posting = $.post("/games", game);
     posting.done(data => (gameId = data.data.id));
   }
