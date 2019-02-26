@@ -64,11 +64,11 @@ function checkWinner() {
   }
 }
 
-function resetGame(save=true) {
-  if (save) saveGame()
+function resetGame(save = true) {
+  if (save) saveGame();
   turn = 0;
   $("td").text("");
-  gameId = null
+  gameId = null;
 }
 
 function doTurn(square) {
@@ -78,23 +78,14 @@ function doTurn(square) {
 }
 
 function attachListeners() {
-  // Attaches the appropriate event listeners to the squares of the game board as well as for the`button#save`, `button#previous`, and`button#clear` elements.
   $("td").on("click", function() {
     doTurn(this);
   });
-  $("#save").on("click", function() {
-    saveGame();
-  });
-  $("#previous").on("click", function() {
-    previousGames();
-  });
-  $("#clear").on("click", function() {
-    resetGame(false);
-  });
-  // When you name your save and previous functions, make sure to call them something like`saveGame()` and`previousGames()`.If you call them`save()` and`previous()` you may run into problems with the test suite.
+  $("#clear").on("click", () => resetGame(false) );
+  $("#save").on("click", () => saveGame());
+  $("#previous").on("click", () => previousGames());
 }
 
-// *** NOTE ***: `attachListeners()` _must_ be invoked inside either a`$(document).ready()`(jQuery) or a`window.onload = () => {}`(vanilla JavaScript).Otherwise, a number of the tests will fail(not to mention that your game probably won't function in the browser).
 $(function() {
   mocha.run();
   attachListeners();
@@ -117,24 +108,26 @@ function saveGame() {
 }
 
 function previousGames() {
-  $.get('/games', (data) => {
-    let games = data.data
-    let buttons = games.map((game) => {
-      return `<button onclick="loadGame(${game.id})" class="prevGameButton">${game.id}</button>`
-    })
-    $('#games').html(buttons.join(' '))
-  })
+  $.get("/games", data => {
+    let games = data.data;
+    let buttons = games.map(game => {
+      return `<button onclick="loadGame(${game.id})" class="prevGameButton">${
+        game.id
+      }</button>`;
+    });
+    $("#games").html(buttons.join(" "));
+  });
 }
 
 function loadGame(id) {
-  $.get(`/games/${id}`, (data) => {
-    let state = data.data.attributes['state']
-    turn = 0 
+  $.get(`/games/${id}`, data => {
+    let state = data.data.attributes["state"];
+    turn = 0;
     for (td of $("td")) {
-      let i =  Number(td.dataset.y) * 3 + Number(td.dataset.x)
-      td.innerHTML = state[i]
-      if (state[i] !== "") turn ++ 
+      let i = Number(td.dataset.y) * 3 + Number(td.dataset.x);
+      td.innerHTML = state[i];
+      if (state[i] !== "") turn++;
     }
-    gameId = id
-  })
+    gameId = id;
+  });
 }
