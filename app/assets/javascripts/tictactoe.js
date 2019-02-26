@@ -65,6 +65,7 @@ function checkWinner() {
 }
 
 function resetGame() {
+  saveGame()
   turn = 0;
   $("td").text("");
   gameId = null
