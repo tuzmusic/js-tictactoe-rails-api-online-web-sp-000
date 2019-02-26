@@ -64,8 +64,8 @@ function checkWinner() {
   }
 }
 
-function resetGame() {
-  saveGame()
+function resetGame(save=true) {
+  if (save) saveGame()
   turn = 0;
   $("td").text("");
   gameId = null
@@ -89,7 +89,7 @@ function attachListeners() {
     previousGames();
   });
   $("#clear").on("click", function() {
-    resetGame();
+    resetGame(false);
   });
   // When you name your save and previous functions, make sure to call them something like`saveGame()` and`previousGames()`.If you call them`save()` and`previous()` you may run into problems with the test suite.
 }
