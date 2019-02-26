@@ -69,15 +69,11 @@ function resetGame() {
 }
 
 function doTurn(square) {
-  if (!won() && !tied() && square.innerHTML === "") {
+  if (!won() && square.innerHTML === "") {
     updateState(square);
     turn++;
-  }
-  if (tied()) {
-    setMessage("Tie game.");
-  }
-  if (checkWinner()) {
-    resetGame();
+    if (tied()) setMessage("Tie game.");
+    if (checkWinner()) resetGame();
   }
 }
 function attachListeners() {
